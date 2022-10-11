@@ -1,0 +1,5 @@
+rootProject.name = 'netty-chat'
+include 'netty-chat-common'
+include 'netty-chat-server'
+include 'netty-chat-client'
+

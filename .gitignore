@@ -1,0 +1,12 @@
+.gradle
+.idea
+out
+kg-janusgraph-api.iml
+allfieldtriple.ttl
+output.log
+build
+*.hprof
+docker-compose/data
+*.class
+*.log
+**/service-logs
