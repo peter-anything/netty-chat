@@ -2,6 +2,7 @@ package com.peter.netty.chat.server.messagehandler.auth;
 
 import com.peter.netty.chat.common.codec.Invocation;
 import com.peter.netty.chat.common.dispatcher.MessageHandler;
+import com.peter.netty.chat.common.util.ChatMsgUtil;
 import com.peter.netty.chat.server.NettyChannelManager;
 import com.peter.netty.chat.server.message.auth.AuthRequest;
 import com.peter.netty.chat.server.message.auth.AuthResponse;
@@ -25,7 +26,7 @@ public class AuthRequestHandler implements MessageHandler<AuthRequest> {
         nettyChannelManager.addUser(channel, authRequest.getAccessToken());
         AuthResponse authResponse = new AuthResponse();
         authResponse.setCode(200);
-        channel.writeAndFlush(new Invocation(AuthResponse.TYPE, authRequest));
+        channel.writeAndFlush(ChatMsgUtil.buildChatMsg(new Invocation(AuthResponse.TYPE, authRequest)));
     }
 
     @Override

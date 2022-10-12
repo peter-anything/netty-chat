@@ -1,6 +1,7 @@
 package com.peter.netty.chat.server;
 
 import com.peter.netty.chat.common.codec.Invocation;
+import com.peter.netty.chat.common.util.ChatMsgUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.util.AttributeKey;
@@ -79,7 +80,7 @@ public class NettyChannelManager {
             log.error("[send][连接({})未激活]", channel.id());
             return;
         }
-        channel.writeAndFlush(invocation);
+        channel.writeAndFlush(ChatMsgUtil.buildChatMsg(invocation));
     }
 
     /**

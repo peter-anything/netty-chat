@@ -16,4 +16,14 @@ public class ChatMsgUtil {
                 .build();
         return msg;
     }
+
+    public static RpcMsg.Msg buildChatMsg(Invocation invocation) {
+        RpcMsg.Msg msg = RpcMsg.Msg.newBuilder()
+                .setMsgId(UUID.randomUUID().toString())
+                .setTimestamp(System.currentTimeMillis())
+                .setMsgType(invocation.getType())
+                .setBody(JSON.toJSONString(invocation))
+                .build();
+        return msg;
+    }
 }
