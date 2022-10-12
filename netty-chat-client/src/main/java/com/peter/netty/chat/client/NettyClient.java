@@ -2,6 +2,7 @@ package com.peter.netty.chat.client;
 
 import com.peter.netty.chat.client.handler.NettyClientHandlerInitializer;
 import com.peter.netty.chat.common.codec.Invocation;
+import com.peter.netty.chat.common.model.chat.RpcMsg;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -101,12 +102,7 @@ public class NettyClient {
         eventGroup.shutdownGracefully();
     }
 
-    /**
-     * 发送消息
-     *
-     * @param invocation 消息体
-     */
-    public void send(Invocation invocation) {
+    public void send(RpcMsg.Msg invocation) {
         if (channel == null) {
             log.error("[send][连接不存在]");
             return;

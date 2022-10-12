@@ -2,6 +2,7 @@ package com.peter.netty.chat.client.controller;
 
 import com.peter.netty.chat.client.NettyClient;
 import com.peter.netty.chat.common.codec.Invocation;
+import com.peter.netty.chat.common.util.ChatMsgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class TestController {
         // 创建 Invocation 对象
         Invocation invocation = new Invocation(type, message);
         // 发送消息
-        nettyClient.send(invocation);
+        nettyClient.send(ChatMsgUtil.builLoginMsg(invocation));
         return "success";
     }
 

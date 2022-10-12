@@ -9,11 +9,53 @@ repositories {
     mavenCentral()
 }
 
+apply plugin: 'com.google.protobuf'
+
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java', 'src/generated/main/java'
+        }
+        proto {
+            srcDir 'src/main/proto' //指定.proto文件路径
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.21.7"
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option "lite"
+                }
+            }
+        }
+    }
+    //生成目录
+    generatedFilesBaseDir = "$projectDir/src/generated"
+    clean {
+        delete generatedFilesBaseDir
+    }
+//    plugins {
+//        grpc {
+//            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+//        }
+//    }
+//    generateProtoTasks {
+//        all()*.plugins {
+//            grpc {}
+//        }
+//    }
+}
 test {
     useJUnitPlatform()
 }

@@ -3,8 +3,13 @@ package com.peter.netty.chat.client.handler;
 import com.peter.netty.chat.common.codec.InvocationDecoder;
 import com.peter.netty.chat.common.codec.InvocationEncoder;
 import com.peter.netty.chat.common.dispatcher.MessageDispatcher;
+import com.peter.netty.chat.common.model.chat.RpcMsg;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +35,17 @@ public class NettyClientHandlerInitializer extends ChannelInitializer<Channel> {
                 .addLast(new IdleStateHandler(READ_TIMEOUT_SECONDS, 0, 0))
                 .addLast(new ReadTimeoutHandler(3 * READ_TIMEOUT_SECONDS))
                 // 编码器
-                .addLast(new InvocationEncoder())
+//                .addLast(new InvocationEncoder())
                 // 解码器
-                .addLast(new InvocationDecoder())
+//                .addLast(new InvocationDecoder())
+                .addLast(new ProtobufVarint32FrameDecoder())
+                .addLast(new ProtobufDecoder(RpcMsg.Msg.getDefaultInstance()))
+                .addLast(new NettyClientBisHandler())
                 // 消息分发器
                 .addLast(messageDispatcher)
                 // 客户端处理器
-                .addLast(nettyClientHandler);
+                .addLast(nettyClientHandler)
+                .addLast(new ProtobufVarint32LengthFieldPrepender())
+                .addLast(new ProtobufEncoder());
     }
 }
